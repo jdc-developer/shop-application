@@ -4,18 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Order {
 
     @Id
@@ -23,22 +22,27 @@ public class Order {
     private Integer id;
 
     private Double totalAmount;
+    private Double totalPrice;
     private LocalDateTime dtCreation;
     private LocalDateTime dtUpdate;
 
-    @OneToMany
-    @JoinColumn(referencedColumnName = "order")
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="order_id")
     private List<OrderLine> orderLines = new ArrayList<>();
 
-    public Order() {
+    public Order(List<OrderLine> orderLines) {
         this.dtCreation = LocalDateTime.now();
         this.dtUpdate = LocalDateTime.now();
+        this.orderLines.addAll(orderLines);
+        this._calculateTotalAmountAndPrice();
     }
 
-    public void calculateTotalAmount() {
-        AtomicReference<Double> totalAmount = new AtomicReference<>();
-        totalAmount.set(0.0);
-        this.orderLines.forEach(orderLine -> totalAmount.set(totalAmount.get()+orderLine.getAmount()));
-        this.totalAmount = totalAmount.get();
+    private void _calculateTotalAmountAndPrice() {
+        this.totalAmount = 0.0;
+        this.totalPrice = 0.0;
+        this.orderLines.forEach(orderLine -> {
+            this.totalAmount += orderLine.getAmount();
+            this.totalPrice += orderLine.getPrice();
+        });
     }
 }

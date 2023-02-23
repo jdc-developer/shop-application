@@ -7,6 +7,8 @@ import com.asaitec.repository.ProductRepository;
 import com.asaitec.service.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class ProductService {
 
@@ -30,6 +32,7 @@ public class ProductService {
 
         product.setName(productUpdateDTO.getName());
         product.setPrice(productUpdateDTO.getPrice());
+        product.setDtUpdate(LocalDateTime.now());
 
         return productRepository.save(product);
     }

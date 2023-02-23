@@ -7,13 +7,10 @@ import com.asaitec.dto.OrderCreateDTO;
 import com.asaitec.repository.OrderLineRepository;
 import com.asaitec.repository.OrderRepository;
 import com.asaitec.service.exception.ObjectNotFoundException;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -40,18 +37,7 @@ public class OrderService {
             orderLines.add(orderLine);
         });
 
-        Order order = new Order();
-        order.getOrderLines().addAll(orderLines);
-        order.calculateTotalAmount();
-
-        order = orderRepository.save(order);
-        AtomicReference<Order> orderAtomicReference = new AtomicReference<>();
-        orderAtomicReference.set(order);
-        orderLines.forEach(orderLine -> {
-            orderLine.setOrder(orderAtomicReference.get());
-            orderLineRepository.save(orderLine);
-        });
-
-        return order;
+        Order order = new Order(orderLines);
+        return orderRepository.save(order);
     }
 }

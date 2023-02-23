@@ -15,6 +15,7 @@ public class OrderDTO {
 
     private Integer id;
     private Double totalAmount;
+    private Double totalPrice;
     private LocalDateTime dtCreation;
     private LocalDateTime dtUpdate;
 }
