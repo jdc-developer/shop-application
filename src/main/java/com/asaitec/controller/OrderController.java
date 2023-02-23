@@ -29,4 +29,10 @@ public class OrderController {
     public ResponseEntity<OrderDTO> create(@RequestBody OrderCreateDTO orderCreateDTO) {
         return ResponseEntity.ok(modelMapper.map(orderService.create(orderCreateDTO), OrderDTO.class));
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        this.orderService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

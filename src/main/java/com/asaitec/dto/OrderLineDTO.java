@@ -6,18 +6,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDTO {
+public class OrderLineDTO {
 
     private Integer id;
-    private Double totalAmount;
-    private Double totalPrice;
+    private Integer amount;
+    private Double price;
     private LocalDateTime dtCreation;
     private LocalDateTime dtUpdate;
-    private List<OrderLineDTO> orderLines;
+    private ProductDTO product;
 }

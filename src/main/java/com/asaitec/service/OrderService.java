@@ -4,7 +4,6 @@ import com.asaitec.domain.Order;
 import com.asaitec.domain.OrderLine;
 import com.asaitec.domain.Product;
 import com.asaitec.dto.OrderCreateDTO;
-import com.asaitec.repository.OrderLineRepository;
 import com.asaitec.repository.OrderRepository;
 import com.asaitec.service.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
@@ -16,12 +15,10 @@ import java.util.List;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderLineRepository orderLineRepository;
     private final ProductService productService;
 
-    public OrderService(OrderRepository orderRepository, OrderLineRepository orderLineRepository, ProductService productService) {
+    public OrderService(OrderRepository orderRepository, ProductService productService) {
         this.orderRepository = orderRepository;
-        this.orderLineRepository = orderLineRepository;
         this.productService = productService;
     }
 
@@ -39,5 +36,10 @@ public class OrderService {
 
         Order order = new Order(orderLines);
         return orderRepository.save(order);
+    }
+
+    public void delete(Integer id) {
+        findById(id);
+        orderRepository.deleteById(id);
     }
 }

@@ -26,7 +26,7 @@ public class Order {
     private LocalDateTime dtCreation;
     private LocalDateTime dtUpdate;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     @JoinColumn(name="order_id")
     private List<OrderLine> orderLines = new ArrayList<>();
 
