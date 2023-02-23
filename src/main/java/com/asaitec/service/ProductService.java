@@ -21,7 +21,7 @@ public class ProductService {
     }
 
     public Product create(ProductCreateDTO productCreateDTO) {
-        Product product = new Product(null, productCreateDTO.getName(), productCreateDTO.getPrice());
+        Product product = new Product(productCreateDTO.getName(), productCreateDTO.getPrice());
         return productRepository.save(product);
     }
 

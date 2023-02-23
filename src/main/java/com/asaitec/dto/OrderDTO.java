@@ -11,11 +11,10 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDTO {
+public class OrderDTO {
 
     private Integer id;
-    private String name;
-    private Double price;
+    private Double totalAmount;
     private LocalDateTime dtCreation;
     private LocalDateTime dtUpdate;
 }

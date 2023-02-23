@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -23,5 +24,14 @@ public class Product {
 
     private String name;
     private Double price;
+    private LocalDateTime dtCreation;
+    private LocalDateTime dtUpdate;
+
+    public Product(String name, Double price) {
+        this.name = name;
+        this.price = price;
+        this.dtCreation = LocalDateTime.now();
+        this.dtUpdate = LocalDateTime.now();
+    }
 
 }

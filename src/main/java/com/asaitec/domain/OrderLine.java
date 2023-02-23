@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -21,8 +19,24 @@ public class OrderLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name="order_id")
     private Order order;
+
+    @ManyToOne
+    @JoinColumn(name="product_id")
     private Product product;
+
     private Integer amount;
     private Double price;
+    private LocalDateTime dtCreation;
+    private LocalDateTime dtUpdate;
+
+    public OrderLine(Product product, Integer amount) {
+        this.product = product;
+        this.amount = amount;
+        this.price = product.getPrice() * amount;
+        this.dtCreation = LocalDateTime.now();
+        this.dtUpdate = LocalDateTime.now();
+    }
 }
