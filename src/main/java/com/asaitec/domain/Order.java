@@ -1,5 +1,6 @@
 package com.asaitec.domain;
 
+import com.asaitec.domain.offers.Offer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,11 +31,30 @@ public class Order {
     @JoinColumn(name="order_id")
     private List<OrderLine> orderLines = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "order_offer",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "offer_id"))
+    private List<Offer> offers = new ArrayList<>();
+
     public Order(List<OrderLine> orderLines) {
         this.dtCreation = LocalDateTime.now();
         this.dtUpdate = LocalDateTime.now();
         this.orderLines.addAll(orderLines);
         this._calculateTotalAmountAndPrice();
+    }
+
+    public void decreaseValue(Double value) {
+        this.totalPrice -= value;
+    }
+
+    public void addOrderLine(OrderLine orderLine) {
+        this.orderLines.add(orderLine);
+    }
+
+    public void addOffer(Offer offer) {
+        this.offers.add(offer);
     }
 
     private void _calculateTotalAmountAndPrice() {
